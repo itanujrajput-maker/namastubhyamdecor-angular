@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { EmailService } from '../Component/services/enquiry';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { Title, Meta } from '@angular/platform-browser';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,FormsModule,CommonModule],
@@ -15,6 +15,11 @@ export class App {
 isScrolled = false;
 
 
+constructor(
+  private enquiryService: EmailService,
+  private meta: Meta,
+  private pageTitle: Title   // ✅ different name
+) {}
 
 heroImages = [
   '/images/kitchen.jpg',
@@ -27,6 +32,27 @@ currentImage = this.heroImages[0];
 index = 0;
 
 ngOnInit() {
+
+  // ✅ SEO TITLE
+ this.pageTitle.setTitle('Best PVC Panel & Interior Designer in Meerut | Namastubhyam Decor');
+ 
+  // ✅ SEO META TAGS
+  this.meta.addTags([
+    {
+      name: 'description',
+      content: 'Namastubhyam Decor provides best PVC panels, wall design and interior services in Meerut. Visit us at J.P Plaza, Baghpat Road, Meerut.'
+    },
+    {
+      name: 'keywords',
+      content: 'PVC panel Meerut, Interior designer Meerut, wall panel Meerut, home decor Meerut, Namastubhyam Decor'
+    },
+    {
+      name: 'robots',
+      content: 'index, follow'
+    }
+  ]);
+
+  // ✅ Your existing code (DON'T REMOVE)
   setInterval(() => {
     this.index = (this.index + 1) % this.heroImages.length;
     this.currentImage = this.heroImages[this.index];
@@ -138,7 +164,7 @@ galleryItems = [
 selectCategory(category: string) {
   this.selectedCategory = category;
 }
-  constructor(private enquiryService: EmailService) {}
+
 
   setTab(tab: string) { this.activeTab = tab; }
 
